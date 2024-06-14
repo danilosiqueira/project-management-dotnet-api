@@ -3,7 +3,7 @@ create table if not exists users (
     name varchar(50) not null,
     login varchar(12) not null,
     password varchar(50) not null,
-    created_at timestamp not null
+    created_at timestamp not null default CURRENT_TIMESTAMP
 );
 
 create index if not exists idx_users_login on users (login);
@@ -13,7 +13,7 @@ create table if not exists projects (
     title varchar(50) not null,
     description varchar(250) not null,
     began_at timestamp not null,
-    created_at timestamp not null,
+    created_at timestamp not null default CURRENT_TIMESTAMP,
     is_subproject boolean not null default false,
     parent_id integer,
     user_id integer not null references users (id)
@@ -36,7 +36,7 @@ create table if not exists tasks (
     id serial not null primary key,
     title varchar(50) not null,
     description varchar(250) not null,
-    created_at timestamp not null,
+    created_at timestamp not null default CURRENT_TIMESTAMP,
     began_at timestamp not null,
     done_at timestamp not null,
     due_date timestamp not null,
