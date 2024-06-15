@@ -29,7 +29,7 @@ create table if not exists resource_types (
 create table if not exists resources (
     id serial not null primary key,
     title varchar(50) not null,
-    type integer not null references resource_types (id)
+    type_id integer not null references resource_types (id)
 );
 
 create table if not exists tasks (

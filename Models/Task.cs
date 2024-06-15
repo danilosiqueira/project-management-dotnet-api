@@ -1,6 +1,6 @@
 namespace ProjectManagement.Models;
 
-class Task
+public class Task
 {
     public long Id { get; set; }
     public string Title { get; set; }

@@ -1,6 +1,6 @@
 namespace ProjectManagement.Models;
 
-class Resource
+public class Resource
 {
     public long Id { get; set; }
     public string Title { get; set; }

@@ -1,9 +1,7 @@
 using Dapper;
 using ProjectManagement.Models;
-using System;
-using System.Data.SqlClient;
-using System.Linq;
 using System.Reflection;
+using Task = ProjectManagement.Models.Task;
 
 public static class DapperConfig
 {
@@ -11,6 +9,9 @@ public static class DapperConfig
     {
         ConfigureTypeMap<User>();
         ConfigureTypeMap<Project>();
+        ConfigureTypeMap<ResourceType>();
+        ConfigureTypeMap<Resource>();
+        ConfigureTypeMap<Task>();
     }
 
     private static void ConfigureTypeMap<T>()

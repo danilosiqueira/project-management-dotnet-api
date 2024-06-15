@@ -28,9 +28,9 @@ public class UserController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public Task<User?> Post(long id, [FromBody] User user)
+    public Task<User?> Put(long id, [FromBody] User user)
     {
         user.Id = id;
-        return _userBusiness.SaveAsync(user);
+        return _userBusiness.UpdateAsync(user);
     }
 }

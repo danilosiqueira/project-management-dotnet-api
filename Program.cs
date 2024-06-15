@@ -10,9 +10,17 @@ builder.Services.AddNpgsqlDataSource(builder.Configuration.GetConnectionString("
 
 //Repositories
 builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<ProjectRepository>();
+builder.Services.AddScoped<ResourceTypeRepository>();
+builder.Services.AddScoped<ResourceRepository>();
+builder.Services.AddScoped<TaskRepository>();
 
 //Business
 builder.Services.AddScoped<UserBusiness>();
+builder.Services.AddScoped<ProjectBusiness>();
+builder.Services.AddScoped<ResourceTypeBusiness>();
+builder.Services.AddScoped<ResourceBusiness>();
+builder.Services.AddScoped<TaskBusiness>();
 
 builder.Services.AddControllers();
 

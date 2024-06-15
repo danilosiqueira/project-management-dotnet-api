@@ -28,9 +28,9 @@ public class ProjectController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public Task<Project?> Post(long id, [FromBody] Project project)
+    public Task<Project?> Put(long id, [FromBody] Project project)
     {
         project.Id = id;
-        return _projectBusiness.SaveAsync(project);
+        return _projectBusiness.UpdateAsync(project);
     }
 }
