@@ -17,8 +17,11 @@ public class UserBusiness
         return _userRepository.GetAsync(id);
     }
 
-    public Task<User?> SaveAsync(User user)
+    public async Task<object?> SaveAsync(User user)
     {
+        if (user == null)
+            return new Error("User cannot be null");
+
         return _userRepository.SaveAsync(user);
     }
 

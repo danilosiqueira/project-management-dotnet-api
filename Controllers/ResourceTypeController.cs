@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManagement.Business;
 using ProjectManagement.Models;
@@ -6,6 +7,7 @@ namespace ProjectManagement.Controllers;
 
 [ApiController]
 [Route("resourcetypes")]
+[Authorize]
 public class ResourceTypesController : ControllerBase
 {
     private readonly ResourceTypeBusiness _resourceTypeBusiness;
