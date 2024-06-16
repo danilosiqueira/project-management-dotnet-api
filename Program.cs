@@ -26,7 +26,13 @@ builder.Services.AddScoped<ResourceTypeBusiness>();
 builder.Services.AddScoped<ResourceBusiness>();
 builder.Services.AddScoped<TaskBusiness>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver
+    {
+        NamingStrategy = new Newtonsoft.Json.Serialization.SnakeCaseNamingStrategy()
+    };
+});
 
 // JWT Configuration
 var key = Encoding.ASCII.GetBytes(builder.Configuration["JWTSecret"]);
