@@ -1,10 +1,10 @@
 namespace ProjectManagement.Business;
 
-public class Error
+public class Validation
 {
     public string Message { get; }
 
-    public Error(string message)
+    public Validation(string message)
     {
         Message = message;
     }

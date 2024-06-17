@@ -6,7 +6,7 @@ create table if not exists users (
     created_at timestamp not null default CURRENT_TIMESTAMP
 );
 
-create index if not exists idx_users_login on users (login);
+create unique index if not exists uidx_users_login on users (login);
 
 create table if not exists projects (
     id serial not null primary key,

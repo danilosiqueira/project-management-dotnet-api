@@ -14,10 +14,10 @@ public class UserRepository
         _conn = dbDataSrouce.CreateConnection();
     }
 
-    public Task<User?> GetAsync(long id)
+    public Task<User?> GetByLoginAsync(string login)
     {
-        var sql = @$"select * from { Table } where id = @Id";
-        return _conn.QuerySingleOrDefaultAsync<User>(sql, new { Id = id });
+        var sql = @$"select * from { Table } where login = @Login";
+        return _conn.QuerySingleOrDefaultAsync<User>(sql, new { Login = login });
     }
 
     public Task<User?> SaveAsync(User user)

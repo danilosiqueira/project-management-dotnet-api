@@ -13,39 +13,38 @@ namespace ProjectManagement.Controllers;
 [Authorize]
 public class UserController : ControllerBase
 {
-    private readonly IConfiguration _config;
 	private readonly IMapper _mapper;
     private readonly UserBusiness _userBusiness;
 
     public UserController(
-        IConfiguration config, 
         IMapper mapper, 
         UserBusiness userBusiness)
     {
-        _config = config;
         _mapper = mapper;
         _userBusiness = userBusiness;
     }
 
     [HttpPost("signup")]
     [AllowAnonymous]
-    public async Task<IActionResult> SignUp([FromBody] User user)
+    public async Task<IActionResult> Signup([FromBody] User user)
     {
-        throw new Exception("blah.");
-        var result = await _userBusiness.SaveAsync(user);
+        var result = await _userBusiness.SignupAsync(user);
 
-        if (result is Error error)
-            return BadRequest(error.Message);
+        if (result is Validation validation)
+            return BadRequest(validation.Message);
 
-        var createdUser = result as User;
-        return Ok(_mapper.Map<UserDTO>(createdUser));
+        return Ok(_mapper.Map<UserDTO>(result as User));
     }
 
     [HttpPost("signin")]
     [AllowAnonymous]
-    public async Task<IActionResult> SignIn([FromBody] User user)
+    public async Task<IActionResult> Signin([FromBody] User user)
     {
-        var token = JWTService.GenerateToken(_config["JWTSecret"], user.Login);
-        return Ok(token);
+        var result = await _userBusiness.SigninAsync(user);
+
+        if (result is Validation validation)
+            return BadRequest(validation.Message);
+
+        return Ok(result as string);
     }
 }
