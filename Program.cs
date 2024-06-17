@@ -5,7 +5,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ProjectManagement;
 using ProjectManagement.Business;
-using ProjectManagement.DTOs;
+using ProjectManagement.Controllers.DTOs;
+using ProjectManagement.Middlewares;
 using ProjectManagement.Models;
 using ProjectManagement.Repositories;
 
@@ -108,5 +109,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.Run();

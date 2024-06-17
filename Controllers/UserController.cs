@@ -2,7 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManagement.Business;
-using ProjectManagement.DTOs;
+using ProjectManagement.Controllers.DTOs;
 using ProjectManagement.Models;
 using ProjectManagement.Services;
 
@@ -31,6 +31,7 @@ public class UserController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> SignUp([FromBody] User user)
     {
+        throw new Exception("blah.");
         var result = await _userBusiness.SaveAsync(user);
 
         if (result is Error error)

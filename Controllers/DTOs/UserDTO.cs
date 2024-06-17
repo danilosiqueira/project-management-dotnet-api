@@ -1,4 +1,4 @@
-namespace ProjectManagement.DTOs;
+namespace ProjectManagement.Controllers.DTOs;
 
 public class UserDTO
 {

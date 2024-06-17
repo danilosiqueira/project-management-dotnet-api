@@ -1,5 +1,5 @@
 using AutoMapper;
-using ProjectManagement.DTOs;
+using ProjectManagement.Controllers.DTOs;
 using ProjectManagement.Models;
 
 namespace ProjectManagement;
