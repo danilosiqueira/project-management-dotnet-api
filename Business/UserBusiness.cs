@@ -22,7 +22,7 @@ public class UserBusiness
         if (user == null)
             return new Error("User cannot be null");
 
-        return _userRepository.SaveAsync(user);
+        return await _userRepository.SaveAsync(user);
     }
 
     public Task<User?> UpdateAsync(User user)

@@ -1,8 +1,12 @@
 using System.Text;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using ProjectManagement;
 using ProjectManagement.Business;
+using ProjectManagement.DTOs;
+using ProjectManagement.Models;
 using ProjectManagement.Repositories;
 
 DapperConfig.ConfigureDapper();
@@ -11,6 +15,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddNpgsqlDataSource(builder.Configuration.GetConnectionString("Default"));
+
+// AutoMapper Configuration
+builder.Services.AddAutoMapper(typeof(DefaultProfile));
 
 // Repositories
 builder.Services.AddScoped<UserRepository>();

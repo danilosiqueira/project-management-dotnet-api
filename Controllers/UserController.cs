@@ -1,6 +1,8 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManagement.Business;
+using ProjectManagement.DTOs;
 using ProjectManagement.Models;
 using ProjectManagement.Services;
 
@@ -12,11 +14,16 @@ namespace ProjectManagement.Controllers;
 public class UserController : ControllerBase
 {
     private readonly IConfiguration _config;
+	private readonly IMapper _mapper;
     private readonly UserBusiness _userBusiness;
 
-    public UserController(IConfiguration config, UserBusiness userBusiness)
+    public UserController(
+        IConfiguration config, 
+        IMapper mapper, 
+        UserBusiness userBusiness)
     {
         _config = config;
+        _mapper = mapper;
         _userBusiness = userBusiness;
     }
 
@@ -24,12 +31,13 @@ public class UserController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> SignUp([FromBody] User user)
     {
-        var blah = await _userBusiness.SaveAsync(user);
+        var result = await _userBusiness.SaveAsync(user);
 
-        if (blah is Error error)
-            return Ok(error.Message);
+        if (result is Error error)
+            return BadRequest(error.Message);
 
-        return Ok(blah as User);
+        var createdUser = result as User;
+        return Ok(_mapper.Map<UserDTO>(createdUser));
     }
 
     [HttpPost("signin")]
