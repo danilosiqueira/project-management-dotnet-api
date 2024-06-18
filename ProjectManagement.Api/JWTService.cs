@@ -7,7 +7,7 @@ namespace ProjectManagement.Api.Services;
 
 public static class JWTService
 {
-    public static string GenerateToken(string secret, string login)
+    public static string GenerateToken(string secret, string userId)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(secret);
@@ -15,7 +15,7 @@ public static class JWTService
         {
             Subject = new ClaimsIdentity(
             [
-                new Claim(ClaimTypes.Name, login)
+                new Claim(JwtRegisteredClaimNames.Sub, userId)
             ]),
             Expires = DateTime.UtcNow.AddHours(2),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

@@ -30,9 +30,16 @@ public class ProjectController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public Task<Project?> Put(long id, [FromBody] Project project)
+    public async Task<IActionResult> Put(long id, [FromBody] Project project)
     {
-        project.Id = id;
-        return _projectBusiness.UpdateAsync(project);
+        var result = await _projectBusiness.UpdateAsync(id, project);
+
+        if (result is Validation validation)
+            return BadRequest(validation.Message);
+
+        if (result is UnauthorizedValidation unauthorizedValidation)
+            return Forbid(unauthorizedValidation.Message);
+
+        return Ok(result as Project);
     }
 }

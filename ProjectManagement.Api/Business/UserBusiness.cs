@@ -15,14 +15,17 @@ public class UserBusiness
         _userRepository = userRepository;
     }
 
-    public async Task<object?> SigninAsync(User user)
+    public async Task<object?> SigninAsync(string login, string password)
     {
-        var userSaved = await _userRepository.GetByLoginAsync(user.Login);
+        var user = await _userRepository.GetByLoginAsync(login);
 
-        if (!PasswordHasher.VerifyPassword(userSaved.Password, user.Password))
+        if (user is null)
+            return new Validation("User not found.");
+
+        if (!PasswordHasher.VerifyPassword(user.Password, password))
             return new Validation("Authentication failed.");
 
-        return JWTService.GenerateToken(_config["JWTSecret"], user.Login);
+        return JWTService.GenerateToken(_config["JWTSecret"], user.Id.ToString());
     }
 
     public async Task<object?> SignupAsync(User user)

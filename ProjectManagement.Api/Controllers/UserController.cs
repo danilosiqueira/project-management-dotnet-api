@@ -40,7 +40,7 @@ public class UserController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> Signin([FromBody] User user)
     {
-        var result = await _userBusiness.SigninAsync(user);
+        var result = await _userBusiness.SigninAsync(user.Login, user.Password);
 
         if (result is Validation validation)
             return BadRequest(validation.Message);
