@@ -4,7 +4,7 @@ using ProjectManagement.Api.Models;
 
 namespace ProjectManagement.Api.Repositories;
 
-public class ProjectRepository
+public class ProjectRepository : IProjectRepository
 {
     private readonly DbConnection _conn;
     private const string Table = "projects";

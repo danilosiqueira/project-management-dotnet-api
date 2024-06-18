@@ -6,15 +6,12 @@ namespace ProjectManagement.Api.Business;
 
 public class ProjectBusiness
 {
-    private readonly long _userId;
-    private readonly ProjectRepository _projectRepository;
+    private readonly RequestInfo _requestInfo;
+    private readonly IProjectRepository _projectRepository;
 
-    public ProjectBusiness(IHttpContextAccessor httpContextAccessor, ProjectRepository projectRepository)
+    public ProjectBusiness(RequestInfo requestInfo, IProjectRepository projectRepository)
     {
-        var userIdClaim = httpContextAccessor.HttpContext?.User?.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
-        if (userIdClaim is not null)
-            _userId = long.Parse(userIdClaim);
-
+        _requestInfo = requestInfo;
         _projectRepository = projectRepository;
     }
 
@@ -35,7 +32,7 @@ public class ProjectBusiness
         if (savedProject is null)
             return new Validation("Project not found.");
 
-        if (_userId != savedProject.UserId)
+        if (_requestInfo.UserId != savedProject.UserId)
             return new UnauthorizedValidation("Project is not owned you.");
 
         return await _projectRepository.UpdateAsync(project);

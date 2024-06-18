@@ -2,6 +2,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using ProjectManagement.Api;
 using ProjectManagement.Api.Business;
 using ProjectManagement.Api.Config;
 using ProjectManagement.Api.Middlewares;
@@ -17,9 +18,12 @@ builder.Services.AddNpgsqlDataSource(builder.Configuration.GetConnectionString("
 // AutoMapper Configuration
 builder.Services.AddAutoMapper(typeof(DefaultProfile));
 
+// AppContext
+builder.Services.AddScoped<RequestInfo>();
+
 // Repositories
 builder.Services.AddScoped<UserRepository>();
-builder.Services.AddScoped<ProjectRepository>();
+builder.Services.AddScoped<IProjectRepository>();
 builder.Services.AddScoped<ResourceTypeRepository>();
 builder.Services.AddScoped<ResourceRepository>();
 builder.Services.AddScoped<TaskRepository>();

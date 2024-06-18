@@ -8,6 +8,6 @@ public class Project
     public DateTime BeganAt { get; set; }
     public DateTime CreatedAt { get; set; }
     public bool IsSubproject { get; set; }
-    public long ParentId { get; set; }
+    public long? ParentId { get; set; }
     public long UserId { get; set; }
 }
