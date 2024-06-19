@@ -8,6 +8,9 @@ public class DefaultProfile : Profile
 {
 	public DefaultProfile()
 	{
-		CreateMap<User, UserDTO>();
+		CreateMap<SignupIn, User>();
+		CreateMap<User, SignupOut>();
+
+		CreateMap<ProjectIn, Project>();
 	}
 }

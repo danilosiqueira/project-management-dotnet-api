@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectManagement.Api.Business;
 using ProjectManagement.Api.Controllers.DTOs;
 using ProjectManagement.Api.Models;
-using ProjectManagement.Api.Services;
 
 namespace ProjectManagement.Api.Controllers;
 
@@ -26,21 +25,21 @@ public class UserController : ControllerBase
 
     [HttpPost("signup")]
     [AllowAnonymous]
-    public async Task<IActionResult> Signup([FromBody] User user)
+    public async Task<IActionResult> Signup([FromBody] SignupIn signupIn)
     {
-        var result = await _userBusiness.SignupAsync(user);
+        var result = await _userBusiness.SignupAsync(_mapper.Map<User>(signupIn));
 
         if (result is Validation validation)
             return BadRequest(validation.Message);
 
-        return Ok(_mapper.Map<UserDTO>(result as User));
+        return Ok(_mapper.Map<SignupOut>(result as User));
     }
 
     [HttpPost("signin")]
     [AllowAnonymous]
-    public async Task<IActionResult> Signin([FromBody] User user)
+    public async Task<IActionResult> Signin([FromBody] SigninIn signinIn)
     {
-        var result = await _userBusiness.SigninAsync(user.Login, user.Password);
+        var result = await _userBusiness.SigninAsync(signinIn.Login, signinIn.Password);
 
         if (result is Validation validation)
             return BadRequest(validation.Message);

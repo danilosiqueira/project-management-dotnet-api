@@ -1,6 +1,6 @@
 using ProjectManagement.Api.Models;
 using ProjectManagement.Api.Repositories;
-using ProjectManagement.Api.Services;
+using ProjectManagement.Api.Security;
 
 namespace ProjectManagement.Api.Business;
 
@@ -32,6 +32,11 @@ public class UserBusiness
     {
         if (user == null)
             return new Validation("User cannot be null.");
+
+        var userExists = await _userRepository.GetByLoginAsync(user.Login);
+        
+        if (userExists is not null)
+            return new Validation("Login in use.");
 
         user.Password = PasswordHasher.HashPassword(user.Password);
 

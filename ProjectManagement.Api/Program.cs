@@ -2,7 +2,6 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using ProjectManagement.Api;
 using ProjectManagement.Api.Business;
 using ProjectManagement.Api.Config;
 using ProjectManagement.Api.Middlewares;
@@ -18,12 +17,11 @@ builder.Services.AddNpgsqlDataSource(builder.Configuration.GetConnectionString("
 // AutoMapper Configuration
 builder.Services.AddAutoMapper(typeof(DefaultProfile));
 
-// AppContext
-builder.Services.AddScoped<RequestInfo>();
+builder.Services.AddScoped<IRequestContext, RequestContext>();
 
 // Repositories
 builder.Services.AddScoped<UserRepository>();
-builder.Services.AddScoped<IProjectRepository>();
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<ResourceTypeRepository>();
 builder.Services.AddScoped<ResourceRepository>();
 builder.Services.AddScoped<TaskRepository>();
@@ -42,6 +40,8 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
         NamingStrategy = new Newtonsoft.Json.Serialization.SnakeCaseNamingStrategy()
     };
 });
+
+builder.Services.AddHttpContextAccessor();
 
 // JWT Configuration
 var key = Encoding.ASCII.GetBytes(builder.Configuration["JWTSecret"]);
@@ -108,5 +108,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseMiddleware<RequestContextMiddleware>();
 
 app.Run();

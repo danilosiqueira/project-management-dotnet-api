@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManagement.Api.Business;
@@ -10,10 +11,14 @@ namespace ProjectManagement.Api.Controllers;
 [Authorize]
 public class ProjectController : ControllerBase
 {
+    private readonly IMapper _mapper;
     private readonly ProjectBusiness _projectBusiness;
 
-    public ProjectController(ProjectBusiness projectBusiness)
+    public ProjectController(
+        IMapper mapper, 
+        ProjectBusiness projectBusiness)
     {
+        _mapper = mapper;
         _projectBusiness = projectBusiness;
     }
 
@@ -24,9 +29,14 @@ public class ProjectController : ControllerBase
     }
 
     [HttpPost]
-    public Task<Project?> Post([FromBody] Project project)
+    public async Task<IActionResult> Post([FromBody] ProjectIn projectIn)
     {
-        return _projectBusiness.SaveAsync(project);
+        var result = await _projectBusiness.SaveAsync(_mapper.Map<Project>(projectIn));
+
+        if (result is Validation validation)
+            return BadRequest(validation.Message);
+
+        return Created("projects", result as Project);
     }
 
     [HttpPut("{id}")]
@@ -38,7 +48,7 @@ public class ProjectController : ControllerBase
             return BadRequest(validation.Message);
 
         if (result is UnauthorizedValidation unauthorizedValidation)
-            return Forbid(unauthorizedValidation.Message);
+            return Forbid();
 
         return Ok(result as Project);
     }

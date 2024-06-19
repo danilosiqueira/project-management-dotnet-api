@@ -1,6 +1,6 @@
 namespace ProjectManagement.Api.Controllers.DTOs;
 
-public class UserDTO
+public class SignupOut
 {
     public long Id { get; set; }
     public required string Name { get; set; }

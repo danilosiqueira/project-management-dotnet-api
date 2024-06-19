@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace ProjectManagement.Api.Services;
+namespace ProjectManagement.Api.Security;
 
 public static class JWTService
 {
@@ -15,7 +15,7 @@ public static class JWTService
         {
             Subject = new ClaimsIdentity(
             [
-                new Claim(JwtRegisteredClaimNames.Sub, userId)
+                new Claim(ClaimTypes.NameIdentifier, userId)
             ]),
             Expires = DateTime.UtcNow.AddHours(2),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

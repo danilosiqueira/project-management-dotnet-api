@@ -1,5 +1,7 @@
 using System.Security.Cryptography;
 
+namespace ProjectManagement.Api.Security;
+
 public class PasswordHasher
 {
     private const int SaltSize = 16; // 128 bit
