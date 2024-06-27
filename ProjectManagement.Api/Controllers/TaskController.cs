@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManagement.Api.Business;
-using ProjectManagement.Api.Models;
 
 namespace ProjectManagement.Api.Controllers;
 
@@ -24,9 +23,14 @@ public class TaskController : ControllerBase
     }
 
     [HttpPost]
-    public Task<Models.Task?> Post([FromBody] Models.Task task)
+    public async Task<IActionResult> Post([FromBody] Models.Task task)
     {
-        return _taskBusiness.SaveAsync(task);
+        var result = await _taskBusiness.SaveAsync(task);
+
+        if (result is Validation validation)
+            return BadRequest(validation.Message);
+
+        return Created("tasks", result as Models.Task);
     }
 
     [HttpPut("{id}")]

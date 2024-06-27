@@ -41,4 +41,10 @@ public class TaskRepository
         where id = @Id";
         return _conn.QuerySingleOrDefaultAsync<Models.Task>(sql, task);
     }
+
+    public Task<Models.Task?> GetOpenByAssigneeAsync(long assigneeId)
+    {
+        var sql = @$"select * from { Table } where is_done = false and assigned_to = @AssigneeId";
+        return _conn.QuerySingleOrDefaultAsync<Models.Task>(sql, new { AssigneeId = assigneeId });
+    }
 }
