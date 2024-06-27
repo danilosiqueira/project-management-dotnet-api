@@ -31,4 +31,10 @@ public class ResourceRepository
         var sql = @$"update { Table } set title = @Title where id = @Id";
         return _conn.QuerySingleOrDefaultAsync<Resource>(sql, Resource);
     }
+
+    public Task<bool> ExistsAsync(long id)
+    {
+        var sql = @$"select true from { Table } where id = @Id";
+        return _conn.ExecuteScalarAsync<bool>(sql, new { Id = id });
+    }
 }
